@@ -17,6 +17,7 @@ export function search(query, page, zhida, perpage) {
   const url = 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp'
 
   const data = Object.assign({}, commonParams, {
+    _: 1565110365855,
     w: query,
     p: page,  // 检索页面
     perpage,

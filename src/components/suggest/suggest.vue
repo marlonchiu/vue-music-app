@@ -68,8 +68,13 @@
         this.$refs.suggest.scrollTo(0, 0)
         search(this.query, this.page, this.showSinger, perpage).then((res) => {
           if (res.code === ERR_OK) {
-            this.result = this._genResult(res.data)
-            this._checkMore(res.data)
+            console.log(res)
+            if (res.data) {
+              this.result = this._genResult(res.data)
+              this._checkMore(res.data)
+            } else {  // 接口存在跨域报错访问的问题
+              console.log(res.message)
+            }
           }
         })
       },
