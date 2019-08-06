@@ -5,7 +5,7 @@
 
 ## 项目目录说明
 
-```text
+```markdown
   build：webpack的一些配置文件以及服务启动文件
   config：多为build中所依赖的文件
   docs: 学习笔记
