@@ -64,6 +64,7 @@
       search() {
         this.page = 1
         this.hasMore = true
+        // 第一次时要滚动到最上边（当query 改变要重置）
         this.$refs.suggest.scrollTo(0, 0)
         search(this.query, this.page, this.showSinger, perpage).then((res) => {
           if (res.code === ERR_OK) {
@@ -77,7 +78,7 @@
           return
         }
         this.page++
-        search(this.query, this.page, this.showSinger, perpage).then((res) => {
+        search(this.query, this.page,  this.showSinger, perpage).then((res) => {
           if (res.code === ERR_OK) {
             this.result = this.result.concat(this._genResult(res.data))
             this._checkMore(res.data)

@@ -7,12 +7,11 @@ export function getLyric(mid) {
 
   const data = Object.assign({}, commonParams, {
     songmid: mid,
-    pcachetime: +new Date(),  // 当前时间戳
+    platform: 'yqq',
     hostUin: 0,
     needNewCode: 0,
-    platform: 'yqq',
-    g_tk: 1664029744,
-    // categoryId: 10000000,
+    categoryId: 10000000,
+    pcachetime: +new Date(),
     format: 'json'
   })
 

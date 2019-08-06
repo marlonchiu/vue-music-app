@@ -69,15 +69,15 @@
       }
     },
 
-    // deactivated() { // 当一个保持活动的组件被停用时调用
-    //   clearTimeout(this.timer)
-    // },
-    // beforeDestroy() {
-    //   clearTimeout(this.timer)
-    // },
-    destroyed() {
+    deactivated() { // 当一个保持活动的组件被停用时调用
       clearTimeout(this.timer)
     },
+    beforeDestroy() {
+      clearTimeout(this.timer)
+    },
+    // destroyed() {
+    //   clearTimeout(this.timer)
+    // },
     methods: {
       _setSliderWidth (isResize) {
         // 设置slider容器的宽度
