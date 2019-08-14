@@ -17,7 +17,7 @@
               </li>
             </ul>
           </div>
-          <div class="search-history" v-show="searchHistory">
+          <div class="search-history" v-show="searchHistory.length">
             <h1 class="title">
               <span class="text">搜索历史</span>
               <span @click="showConfirm" class="clear">
@@ -26,6 +26,7 @@
             </h1>
             <search-list
               @select="addQuery"
+              @delete="deleteSearchHistory"
               :searches="searchHistory"></search-list>
           </div>
         </div>
@@ -38,7 +39,8 @@
         @select="saveSearch"
         :query="query"></suggest>
     </div>
-    <!--<confirm ref="confirm" text="是否清空所有搜索历史" confirmBtnText="清空"></confirm>-->
+    <confirm ref="confirm" @confirm="clearSearchHistory"
+             text="是否清空所有搜索历史" confirmBtnText="清空"></confirm>
     <router-view></router-view>
   </div>
 </template>
@@ -100,6 +102,12 @@
       saveSearch() {
         this.saveSearchHistory(this.query)
       },
+      // deleteOne(item) {
+      //   this.deleteSearchHistory(item)
+      // },
+      // deleteAll() {
+      //   this.clearSearchHistory()
+      // },
       _getHotKey() {
         getHotKey().then((res) => {
           if (res.code === ERR_OK) {
@@ -109,7 +117,9 @@
         })
       },
       ...mapActions([
-        'saveSearchHistory'
+        'saveSearchHistory',
+        'deleteSearchHistory',
+        'clearSearchHistory'
       ])
     },
     watch: {

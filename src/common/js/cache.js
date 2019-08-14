@@ -19,6 +19,14 @@ function insertArray(arr, val, compare, maxLen) {
     arr.pop()
   }
 }
+
+function deleteFromArray(arr, compare) {
+  const index = arr.findIndex(compare)
+  if (index > -1) {
+    arr.splice(index, 1)
+  }
+}
+
 /*
 *  业务说明
 *  如果没有则插入到最前边，如果有就需要把有的置为最前边
@@ -35,4 +43,20 @@ export function saveSearch(query) {
 // 获取本地缓存数据
 export function loadSearch() {
   return storage.get(SEARCH_KEY, [])
+}
+
+// 删除搜索结果
+export function deleteSearch(query) {
+  let searches = storage.get(SEARCH_KEY, [])
+  deleteFromArray(searches, (item) => {
+    return item === query
+  })
+  storage.set(SEARCH_KEY, searches)
+  return searches
+}
+
+// 清空搜索结果
+export function clearSearch() {
+  storage.remove(SEARCH_KEY)
+  return []
 }
