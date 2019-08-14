@@ -87,14 +87,15 @@
       onQueryChange(query) {
         this.query = query
       },
+      // 播放器自适应
       handlePlaylist(playlist) {
         const bottom = playlist.length > 0 ? '60px' : ''
 
-        this.$refs.searchResult.style.bottom = bottom
-        this.$refs.suggest.refresh()
-
         this.$refs.shortcutWrapper.style.bottom = bottom
         this.$refs.shortcut.refresh()
+
+        this.$refs.searchResult.style.bottom = bottom
+        this.$refs.suggest.refresh()
       },
       showConfirm() {
         this.$refs.confirm.show()

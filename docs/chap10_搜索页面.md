@@ -34,3 +34,7 @@ export function debounce(func, delay) {
 
 3) 搜索历史列表
 
+4) 搜素列表的 保存、删除、清空、confirm组件
+
+5) 优化： 搜索列表与播放器的自适应
+

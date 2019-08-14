@@ -58,6 +58,7 @@
       }
     },
     methods: {
+      // 代理suggest事件
       refresh() {
         this.$refs.suggest.refresh()
       },
