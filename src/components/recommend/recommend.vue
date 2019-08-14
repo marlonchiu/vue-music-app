@@ -78,7 +78,7 @@
         })
       },
       selectItem(item) {
-        this.$route.push({
+        this.$router.push({
           path: `/recommend/${item.id}`
         })
         this.setDisc(item)
@@ -105,8 +105,8 @@
   }
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus" scoped>
-  @import "~common/stylus/variable.styl"
+<style scoped lang="stylus" rel="stylesheet/stylus">
+  @import "~common/stylus/variable"
 
   .recommend
     position fixed
