@@ -32,6 +32,7 @@
     <div class="search-result" v-show="query" ref="searchResult">
       <suggest
         ref="suggest"
+        @listScroll="blurInput"
         :query="query"></suggest>
     </div>
     <!--<confirm ref="confirm" text="是否清空所有搜索历史" confirmBtnText="清空"></confirm>-->

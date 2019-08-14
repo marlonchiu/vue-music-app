@@ -74,6 +74,8 @@
               this._checkMore(res.data)
             } else {  // 接口存在跨域报错访问的问题
               console.log(res.message)
+              this.result = []
+              this.hasMore = false
             }
           }
         })
@@ -91,6 +93,7 @@
         })
       },
       listScroll() {
+        // 滚动要关闭键盘输入  通知search组件input blur
         this.$emit('listScroll') // search 组件接收
       },
       selectItem(item) {
