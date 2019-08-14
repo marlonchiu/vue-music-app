@@ -1,7 +1,3 @@
-/*
- *  Created by : ZhaoJiandong
- *  Modified time: 2018/11/3 11:58
- */
 export const SET_SINGER = 'SET_SINGER'
 
 export const SET_PLAYING_STATE = 'SET_PLAYING_STATE'
@@ -19,3 +15,5 @@ export const SET_CURRENT_INDEX = 'SET_CURRENT_INDEX'
 export const SET_DISC = 'SET_DISC'
 
 export const SET_TOP_LIST = 'SET_TOP_LIST'
+
+export const SET_SEARCH_HISTORY = 'set_search_history'

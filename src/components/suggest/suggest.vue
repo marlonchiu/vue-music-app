@@ -109,7 +109,8 @@
         } else {
           this.insertSong(item)
         }
-
+        console.log(item)
+        // 派发事件 进行搜索历史保存（提交给search）
         this.$emit('select', item)
       },
       getDisplayName(item) {

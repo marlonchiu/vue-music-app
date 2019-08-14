@@ -17,14 +17,16 @@
               </li>
             </ul>
           </div>
-          <div class="search-history">
+          <div class="search-history" v-show="searchHistory">
             <h1 class="title">
               <span class="text">搜索历史</span>
               <span @click="showConfirm" class="clear">
                 <i class="icon-clear"></i>
               </span>
             </h1>
-            <!--<search-list @delete="deleteSearchHistory" @select="addQuery" :searches="searchHistory"></search-list>-->
+            <search-list
+              @select="addQuery"
+              :searches="searchHistory"></search-list>
           </div>
         </div>
       </scroll>
@@ -33,10 +35,11 @@
       <suggest
         ref="suggest"
         @listScroll="blurInput"
+        @select="saveSearch"
         :query="query"></suggest>
     </div>
     <!--<confirm ref="confirm" text="是否清空所有搜索历史" confirmBtnText="清空"></confirm>-->
-    <!--<router-view></router-view>-->
+    <router-view></router-view>
   </div>
 </template>
 
@@ -50,7 +53,7 @@
   import {getHotKey} from 'api/search'
   import {ERR_OK} from 'api/config'
   import {playlistMixin} from 'common/js/mixin'
-  // import {mapActions} from 'vuex'
+  import {mapActions, mapGetters} from 'vuex'
 
   export default {
     mixins: [playlistMixin],
@@ -61,6 +64,9 @@
       }
     },
     computed: {
+      ...mapGetters([
+        'searchHistory'
+      ]),
       shortcut() {
         return this.hotKey.concat(this.searchHistory)
       }
@@ -91,6 +97,9 @@
       showConfirm() {
         this.$refs.confirm.show()
       },
+      saveSearch() {
+        this.saveSearchHistory(this.query)
+      },
       _getHotKey() {
         getHotKey().then((res) => {
           if (res.code === ERR_OK) {
@@ -98,10 +107,10 @@
             this.hotKey = res.data.hotkey.slice(0, 10)
           }
         })
-      }
-      // ...mapActions([
-      //   'clearSearchHistory'
-      // ])
+      },
+      ...mapActions([
+        'saveSearchHistory'
+      ])
     },
     watch: {
       query(newQuery) {

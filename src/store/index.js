@@ -9,8 +9,6 @@ import * as actions from './actions'
 import * as getters from './getters'
 import state from './state'
 import mutations from './mutations'
-// import actions from './actions'
-// import getters from './getters'
 
 import createLogger from 'vuex/dist/logger'  // 当state修改时控制台会输出的提示
 
