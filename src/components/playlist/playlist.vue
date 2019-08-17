@@ -10,11 +10,12 @@
             <span class="clear"><i class="icon-clear"></i></span>
           </h1>
         </div>
-        <div ref="listContent" class="list-content">
+        <scroll ref="listContent" class="list-content">
           <ul ref="list">
-            <li class="item">
-              <i class="current"></i>
-              <span class="text"></span>
+            <li ref="listItem" :key="item.id" class="item" v-for="(item,index) in sequenceList"
+                @click="selectItem(item,index)">
+              <i class="current" :class="getCurrentIcon(item)"></i>
+              <span class="text">{{item.name}}</span>
               <span class="like">
                 <i class="icon-not-favorite"></i>
               </span>
@@ -23,7 +24,7 @@
               </span>
             </li>
           </ul>
-        </div>
+        </scroll>
         <div class="list-operate">
           <div class="add">
             <i class="icon-add"></i>
@@ -39,18 +40,77 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {mapGetters, mapMutations} from 'vuex'
+  import { playMode } from 'common/js/config'
+  import Scroll from 'base/scroll/scroll'
   export default {
     data() {
       return {
         showFlag: false
       }
     },
+    computed: {
+      ...mapGetters([
+        'sequenceList',
+        'currentSong',
+        'playlist',
+        'mode'
+      ])
+    },
     methods: {
       show () {
         this.showFlag = true
+        // 当显示的时候需要重新渲染滚动dom,否则滚动会出现问题
+        setTimeout(() => {
+          this.$refs.listContent.refresh()
+          this.scrollToCurrentIndex(this.currentSong)
+        }, 20)
       },
       hide () {
         this.showFlag = false
+      },
+      // 当前正在播放的歌曲添加样式
+      getCurrentIcon(item) {
+        if (this.currentSong.id === item.id){
+          return 'icon-play'
+        } else {
+          return ''
+        }
+      },
+      selectItem(item, index) {
+        if (this.mode === playMode.random) {
+          index = this.playlist.findIndex((song) => {
+            return song.id === item.id
+          })
+        }
+        this.setCurrentIndex(index)
+        this.setPlayingState(true)
+      },
+      // 滚动到正在播放的歌曲位置
+      scrollToCurrentIndex(current) {
+        const index = this.sequenceList.findIndex((song) => {
+          return current.id === song.id
+        })
+        // this.$refs.listContent.scrollToElement(this.$refs.list.$el.children[index], 300)
+        this.$refs.listContent.scrollToElement(this.$refs.listItem[index], 300)
+      },
+      ...mapMutations({
+        setCurrentIndex: 'SET_CURRENT_INDEX',
+        setPlayingState: 'SET_PLAYING_STATE'
+      })
+    },
+    components: {
+      Scroll
+    },
+    watch: {
+      currentSong(newSong, oldSong) {
+        if (!this.showFlag || newSong.id === oldSong.id) {
+          return
+        }
+
+        setTimeout(() => {
+          this.scrollToCurrentIndex(newSong)
+        }, 20)
       }
     }
   }
