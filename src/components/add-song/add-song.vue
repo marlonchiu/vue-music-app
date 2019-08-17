@@ -20,6 +20,13 @@
               </song-list>
             </div>
           </scroll>
+          <scroll ref="searchList" v-if="currentIndex === 1" class="list-scroll"
+                  :data="searchHistory">
+            <div class="list-inner">
+              <search-list @delete="deleteSearchHistory" @select="addQuery"
+                           :searches="searchHistory"></search-list>
+            </div>
+          </scroll>
         </div>
       </div>
       <div class="search-result" v-show="query">
@@ -35,7 +42,7 @@
   import Switches from 'base/switches/switches'
   import Scroll from 'base/scroll/scroll'
   import SongList from 'base/song-list/song-list'
-  // import SearchList from 'base/search-list/search-list'
+  import SearchList from 'base/search-list/search-list'
   // import TopTip from 'base/top-tip/top-tip'
   import {searchMixin} from 'common/js/mixin'
   import Song from 'common/js/song'
@@ -65,6 +72,14 @@
     methods: {
       show() {
         this.showFlag = true
+        // 第一次进入 需要重新计算高度  因为是从display none 过来的
+        setTimeout(() => {
+          if (this.currentIndex === 0) {
+            this.$refs.songList.refresh()
+          } else {
+            this.$refs.searchList.refresh()
+          }
+        }, 20)
       },
       hide() {
         this.showFlag = false
@@ -90,7 +105,8 @@
       Suggest,
       Switches,
       Scroll,
-      SongList
+      SongList,
+      SearchList
     }
   }
 </script>
