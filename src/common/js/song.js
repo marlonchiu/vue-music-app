@@ -49,6 +49,7 @@ export function createSong(musicData) {
   //     return res.data.items[0].vkey
   //   }
   // })
+  console.log(musicData)
 
   return new Song({
     id: musicData.songid,
@@ -59,7 +60,9 @@ export function createSong(musicData) {
     duration: musicData.interval,
     image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`,
     // url: `http://ws.stream.qqmusic.qq.com/C400${musicData.songmid}.m4a?&guid=9211497888&fromtag=0`
-    url: `http://ws.stream.qqmusic.qq.com/${musicData.songid}.m4a?fromtag=46`
+    // url: `http://ws.stream.qqmusic.qq.com/M500${musicData.songmid}.m4a?fromtag=46`
+    url: `http://ws.stream.qqmusic.qq.com/M500${musicData.songmid}.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46`
+    // url: `http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46`
   })
 }
 
