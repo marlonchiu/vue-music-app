@@ -10,7 +10,7 @@
             <span class="clear" @click="showConfirm"><i class="icon-clear"></i></span>
           </h1>
         </div>
-        <scroll ref="listContent" :data="sequenceList" class="list-content">
+        <scroll ref="listContent" :refreshDelay="refreshDelay" :data="sequenceList" class="list-content">
           <transition-group name="list" ref="list" tag="ul">
             <li ref="listItem" :key="item.id" class="item" v-for="(item,index) in sequenceList"
                 @click="selectItem(item,index)">
@@ -53,7 +53,8 @@
     mixins: [playerMixin],
     data() {
       return {
-        showFlag: false
+        showFlag: false,
+        refreshDelay: 120
       }
     },
     computed: {

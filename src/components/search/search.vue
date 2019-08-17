@@ -5,6 +5,7 @@
     </div>
     <div ref="shortcutWrapper" class="shortcut-wrapper" v-show="!query">
       <scroll
+        :refreshDelay="refreshDelay"
         ref="shortcut"
         class="shortcut"
         :data="shortcut">
