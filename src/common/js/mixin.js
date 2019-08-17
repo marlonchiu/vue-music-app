@@ -1,7 +1,7 @@
 /*
  *  当相同的代码逻辑被频繁调用的时候，就可以写在mixin.js中
  */
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 import {playMode} from 'common/js/config'
 import {shuffle} from 'common/js/util'
 
@@ -69,5 +69,37 @@ export const playerMixin = {
       setPlayMode: 'SET_PLAY_MODE',
       setPlaylist: 'SET_PLAYLIST'
     })
+  }
+}
+
+export const searchMixin = {
+  data() {
+    return {
+      query: ''
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'searchHistory'
+    ])
+  },
+  methods: {
+    onQueryChange(query) {
+      this.query = query
+    },
+    blurInput() {
+      // 调用search-box 方法
+      this.$refs.searchBox.blur()
+    },
+    addQuery(query) {
+      this.$refs.searchBox.setQuery(query)
+    },
+    saveSearch() {
+      this.saveSearchHistory(this.query)
+    },
+    ...mapActions([
+      'saveSearchHistory',
+      'deleteSearchHistory'
+    ])
   }
 }

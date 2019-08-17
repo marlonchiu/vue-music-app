@@ -8,32 +8,34 @@
         </div>
       </div>
       <div class="search-box-wrapper">
-
+        <search-box ref="searchBox" @query="onQueryChange" placeholder="搜索歌曲"></search-box>
       </div>
-      <div class="shortcut">
+      <div class="shortcut" v-show="!query">
       </div>
-      <div class="search-result">
+      <div class="search-result" v-show="query">
+        <suggest :query="query" :showSinger="showSinger" @select="selectSuggest" @listScroll="blurInput"></suggest>
       </div>
     </div>
   </transition>
 </template>
-
 <script type="text/ecmascript-6">
-  // import SearchBox from 'base/search-box/search-box'
+  import SearchBox from 'base/search-box/search-box'
+  import Suggest from 'components/suggest/suggest'
   // import SongList from 'base/song-list/song-list'
   // import SearchList from 'base/search-list/search-list'
   // import Scroll from 'base/scroll/scroll'
   // import Switches from 'base/switches/switches'
   // import TopTip from 'base/top-tip/top-tip'
-  // import Suggest from 'components/suggest/suggest'
-  // import {searchMixin} from 'common/js/mixin'
+  import {searchMixin} from 'common/js/mixin'
   // import {mapGetters, mapActions} from 'vuex'
   // import Song from 'common/js/song'
 
   export default {
+    mixins: [searchMixin],
     data () {
       return {
-        showFlag: false
+        showFlag: false,
+        showSinger: false
       }
     },
     methods: {
@@ -42,10 +44,14 @@
       },
       hide() {
         this.showFlag = false
+      },
+      selectSuggest() {
+        this.saveSearch()
       }
     },
     components: {
-
+      SearchBox,
+      Suggest
     }
   }
 </script>
