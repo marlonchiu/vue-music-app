@@ -101,7 +101,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {mapGetters, mapMutations} from 'vuex'
+  import {mapGetters, mapMutations, mapActions} from 'vuex'
   import animations from 'create-keyframe-animation'
   import {prefixStyle} from 'common/js/dom'
   import ProgressBar from 'base/progress-bar/progress-bar'
@@ -127,6 +127,28 @@
         currentShow: 'cd',
         playingLyric: ''
       }
+    },
+    computed: {
+      cdCls() {
+        return this.playing ? 'play' : 'play pause'
+      },
+      playIcon() {
+        return this.playing ? 'icon-pause' : 'icon-play'
+      },
+      miniIcon() {
+        return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
+      },
+      disableCls() {
+        return this.songReady ? '' : 'disable'
+      },
+      percent() {
+        return this.currentTime / this.currentSong.duration
+      },
+      ...mapGetters([
+        'fullScreen',
+        'playing',
+        'currentIndex'
+      ])
     },
     created() {
       this.touch = {}
@@ -202,7 +224,8 @@
       },
       ready() {
         this.songReady = true
-        // this.savePlayHistory(this.currentSong)
+        // 保存歌曲到历史缓存
+        this.savePlayHistory(this.currentSong)
       },
       error() {
         this.songReady = true
@@ -388,31 +411,11 @@
       },
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN'
-      })
-    },
-    computed: {
-      cdCls() {
-        return this.playing ? 'play' : 'play pause'
-      },
-      playIcon() {
-        return this.playing ? 'icon-pause' : 'icon-play'
-      },
-      miniIcon() {
-        return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
-      },
-      disableCls() {
-        return this.songReady ? '' : 'disable'
-      },
-      percent() {
-        return this.currentTime / this.currentSong.duration
-      },
-      ...mapGetters([
-        'fullScreen',
-        'playing',
-        'currentIndex'
+      }),
+      ...mapActions([
+        'savePlayHistory'
       ])
     },
-
     components: {
       Scroll,
       ProgressBar,

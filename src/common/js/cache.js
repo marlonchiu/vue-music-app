@@ -1,9 +1,11 @@
 // 操作与缓存相关的逻辑
 import storage from 'good-storage'
-
+// 缓存搜索历史
 const SEARCH_KEY = '__search__'
-
 const SEARCH_MAX_LENGTH = 15
+// 缓存播放历史
+const PLAY_KEY = '__play__'
+const PLAY_MAX_LENGTH = 200
 
 // 封装插入数据的方法
 function insertArray(arr, val, compare, maxLen) {
@@ -40,11 +42,6 @@ export function saveSearch(query) {
   return searches
 }
 
-// 获取本地缓存数据
-export function loadSearch() {
-  return storage.get(SEARCH_KEY, [])
-}
-
 // 删除搜索结果
 export function deleteSearch(query) {
   let searches = storage.get(SEARCH_KEY, [])
@@ -59,4 +56,24 @@ export function deleteSearch(query) {
 export function clearSearch() {
   storage.remove(SEARCH_KEY)
   return []
+}
+
+// 获取本地缓存数据
+export function loadSearch() {
+  return storage.get(SEARCH_KEY, [])
+}
+
+// 缓存播放
+export function savePlay(song) {
+  let songs = storage.get(PLAY_KEY, [])
+  insertArray(songs, song, (item) => {
+    return song.id === item.id
+  }, PLAY_MAX_LENGTH)
+  storage.set(PLAY_KEY, songs)
+  return songs
+}
+
+// 读取播放列表
+export function loadPlay() {
+  return storage.get(PLAY_KEY, [])
 }

@@ -13,6 +13,14 @@
       <div class="shortcut" v-show="!query">
         <switches :switches="switches"
                   :currentIndex="currentIndex" @switch="switchItem"></switches>
+        <div class="list-wrapper">
+          <scroll ref="songList" v-if="currentIndex === 0" class="list-scroll" :data="playHistory">
+            <div class="list-inner">
+              <song-list :songs="playHistory" @select="selectSong">
+              </song-list>
+            </div>
+          </scroll>
+        </div>
       </div>
       <div class="search-result" v-show="query">
         <suggest :query="query" :showSinger="showSinger" @select="selectSuggest" @listScroll="blurInput"></suggest>
@@ -21,16 +29,16 @@
   </transition>
 </template>
 <script type="text/ecmascript-6">
+  import {mapGetters, mapActions} from 'vuex'
   import SearchBox from 'base/search-box/search-box'
   import Suggest from 'components/suggest/suggest'
   import Switches from 'base/switches/switches'
-  // import SongList from 'base/song-list/song-list'
+  import Scroll from 'base/scroll/scroll'
+  import SongList from 'base/song-list/song-list'
   // import SearchList from 'base/search-list/search-list'
-  // import Scroll from 'base/scroll/scroll'
   // import TopTip from 'base/top-tip/top-tip'
   import {searchMixin} from 'common/js/mixin'
-  // import {mapGetters, mapActions} from 'vuex'
-  // import Song from 'common/js/song'
+  import Song from 'common/js/song'
 
   export default {
     mixins: [searchMixin],
@@ -49,6 +57,11 @@
         ]
       }
     },
+    computed: {
+      ...mapGetters([
+        'playHistory'
+      ])
+    },
     methods: {
       show() {
         this.showFlag = true
@@ -56,17 +69,28 @@
       hide() {
         this.showFlag = false
       },
+      selectSong(song, index) {
+        if (index !== 0) {
+          this.insertSong(new Song(song))
+          // this.$refs.topTip.show()
+        }
+      },
       selectSuggest() {
         this.saveSearch()
       },
       switchItem(index) {
         this.currentIndex = index
-      }
+      },
+      ...mapActions([
+        'insertSong'
+      ])
     },
     components: {
       SearchBox,
       Suggest,
-      Switches
+      Switches,
+      Scroll,
+      SongList
     }
   }
 </script>
