@@ -451,11 +451,17 @@
     },
     watch: {
       currentSong(newSong, oldSong) {
+        if (!newSong.id) {
+          return
+        }
         if (newSong.id === oldSong.id) {
           return
         }
         if (this.currentLyric) {  // 切换歌词要关闭正在播放的歌词
           this.currentLyric.stop()
+          this.currentTime = 0
+          this.playingLyric = ''
+          this.currentLineNum = 0
         }
         setTimeout(() => {
           this.$refs.audio.play()

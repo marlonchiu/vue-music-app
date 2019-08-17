@@ -42,6 +42,7 @@ export const randomPlay = function ({commit, state}, {list}) {
   commit(types.SET_PLAYING_STATE, true)
 }
 
+// 插入一首歌
 export const insertSong = function ({commit, state}, song) {
   let playlist = state.playlist.slice()  // 记录当前歌曲列表（不能直接修改state的数据，其实修改的是副本）
   let sequenceList = state.sequenceList.slice()
@@ -97,4 +98,45 @@ export const deleteSearchHistory = function ({commit}, query) {
 }
 export const clearSearchHistory = function ({commit}) {
   commit(types.SET_SEARCH_HISTORY, clearSearch())
+}
+
+// 删除一首歌曲
+export const deleteSong = function ({commit, state}, song) {
+  let playlist = state.playlist.slice()  // 记录当前歌曲列表（不能直接修改state的数据，其实修改的是副本）
+  let sequenceList = state.sequenceList.slice()
+  let currentIndex = state.currentIndex   // 记录当前播放的index
+
+  // 找到playlist的索引
+  let pIndex = findIndex(playlist, song)
+  playlist.splice(pIndex, 1)
+  // 找到sequenceList的索引
+  let sIndex = findIndex(sequenceList, song)
+  sequenceList.splice(sIndex, 1)
+
+  // 如果当前播放的歌曲在删除的歌曲之后  或者  当前歌曲是最后一首（删除的是最后一首歌）
+  if (currentIndex > pIndex || currentIndex === playlist.length) {
+    currentIndex--
+  }
+
+  // 修改state数据
+  commit(types.SET_PLAYLIST, playlist)
+  commit(types.SET_SEQUENCE_LIST, sequenceList)
+  commit(types.SET_CURRENT_INDEX, currentIndex)
+
+  // if (!playlist.length) { // 如果没有歌曲哈
+  //   commit(types.SET_PLAYING_STATE, false)
+  // } else {
+  //   commit(types.SET_PLAYING_STATE, true)
+  // }
+  // 代码优化
+  const playState = playlist.length > 0
+  commit(types.SET_PLAYING_STATE, playState)
+}
+
+// 删除歌曲列表
+export const deleteSongList = function ({commit}) {
+  commit(types.SET_PLAYLIST, [])
+  commit(types.SET_SEQUENCE_LIST, [])
+  commit(types.SET_CURRENT_INDEX, -1)
+  commit(types.SET_PLAYING_STATE, false)
 }
