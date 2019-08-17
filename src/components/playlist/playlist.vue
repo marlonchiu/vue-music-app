@@ -1,7 +1,8 @@
 <template>
   <transition name="list-fade">
-    <div class="playlist">
-      <div class="list-wrapper">
+    <div class="playlist" v-show="showFlag" @click="hide">
+      <!--取消冒泡-->
+      <div class="list-wrapper" @click.stop>
         <div class="list-header">
           <h1 class="title">
             <i class="icon"></i>
@@ -38,7 +39,21 @@
 </template>
 
 <script type="text/ecmascript-6">
-
+  export default {
+    data() {
+      return {
+        showFlag: false
+      }
+    },
+    methods: {
+      show () {
+        this.showFlag = true
+      },
+      hide () {
+        this.showFlag = false
+      }
+    }
+  }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">

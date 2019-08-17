@@ -49,7 +49,7 @@ export function createSong(musicData) {
   //     return res.data.items[0].vkey
   //   }
   // })
-  console.log(musicData)
+  // console.log(musicData)
 
   return new Song({
     id: musicData.songid,
