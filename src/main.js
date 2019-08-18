@@ -9,6 +9,13 @@ import fastclick from 'fastclick'
 import VueLazyload from 'vue-lazyload'
 import './common/stylus/index.styl'
 
+// import VConsole from 'vconsole'
+// /* eslint-disable no-unused-vars */
+// const vConsole = new VConsole()
+//
+// console.log(vConsole.version)
+// console.log('test')
+
 Vue.config.productionTip = false
 fastclick.attach(document.body)
 Vue.use(VueLazyload, {
