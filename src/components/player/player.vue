@@ -176,6 +176,7 @@
         }
         if (this.playlist.length === 1) {
           this.loop()
+          return
         } else {
           let index = this.currentIndex - 1
           if (index === -1) {
@@ -209,6 +210,8 @@
 
         if (this.playlist.length === 1) {
           this.loop()
+          // bug 修复
+          return
         } else {
           let index = this.currentIndex + 1
           if (index === this.playlist.length) {  // 边界限定，到最后一首歌曲
@@ -241,6 +244,7 @@
       },
       getLyric() {
         this.currentSong.getLyric().then((lyric) => {
+          // 获取歌词异步操作 出现歌词混乱
           if (this.currentSong.lyric !== lyric) {
             return
           }
@@ -436,7 +440,8 @@
           this.playingLyric = ''
           this.currentLineNum = 0
         }
-        setTimeout(() => {
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
           this.$refs.audio.play()
           this.getLyric()
         }, 1000)
