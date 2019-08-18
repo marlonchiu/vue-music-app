@@ -6,6 +6,9 @@ const SEARCH_MAX_LENGTH = 15
 // 缓存播放历史
 const PLAY_KEY = '__play__'
 const PLAY_MAX_LENGTH = 200
+// 缓存收藏历史
+const FAVORITE_KEY = '__favorite__'
+const FAVORITE_MAX_LENGTH = 200
 
 // 封装插入数据的方法
 function insertArray(arr, val, compare, maxLen) {
@@ -76,4 +79,26 @@ export function savePlay(song) {
 // 读取播放列表
 export function loadPlay() {
   return storage.get(PLAY_KEY, [])
+}
+
+// 收藏列表
+export function saveFavorite(song) {
+  let songs = storage.get(FAVORITE_KEY, [])
+  insertArray(songs, song, (item) => {
+    return item.id === song.id
+  }, FAVORITE_MAX_LENGTH)
+  storage.set(FAVORITE_KEY, songs)
+  return songs
+}
+export function deleteFavorite(song) {
+  let songs = storage.get(FAVORITE_KEY, [])
+  deleteFromArray(songs, (item) => {
+    return item.id === song.id
+  })
+  storage.set(FAVORITE_KEY, songs)
+  return songs
+}
+// 读取播放列表
+export function loadFavorite() {
+  return storage.get(FAVORITE_KEY, [])
 }
